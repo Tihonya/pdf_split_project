@@ -1,3 +1,11 @@
-30__L1_LLM_Engineers_Handbook_Master_the_art_of_engineering_large_language.pdf
-__pycache__/cli.cpython-313.pyc
-__pycache__/Test_pdf.cpython-313.pyc
+*.pdf
+__pycache__/*
+*.pyc
+*.pyo
+*.pyd
+*.pkl
+*.db
+*.sqlite3
+*.log
+*.csv
+*.tsv
