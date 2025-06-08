@@ -1,0 +1,65 @@
+version: '1.0'
+project: pdf_book_splitter
+tasks:
+- id: env-setup
+  title: Setup Python venv and install dependencies
+  description: Create isolated venv, install PyMuPDF, click, rich, pytest.
+  priority: MUST
+  depends: []
+- id: cli-skeleton
+  title: Create CLI entrypoints
+  description: Create cli.py with Click commands pdfsplit and pdfclean.
+  priority: MUST
+  depends:
+  - env-setup
+- id: bookmark-extraction
+  title: Implement bookmark extraction
+  description: Use PyMuPDF doc.get_toc to build list of nodes with level.
+  priority: MUST
+  depends:
+  - cli-skeleton
+- id: splitter-core
+  title: Implement split logic
+  description: Using extracted bookmarks, copy pages into new PDFs duplicating boundary
+    pages.
+  priority: MUST
+  depends:
+  - bookmark-extraction
+- id: metadata-preserve
+  title: Preserve metadata
+  description: Carry over title, author and doc info to child PDFs.
+  priority: SHOULD
+  depends:
+  - splitter-core
+- id: duplicate-options
+  title: Add duplicate boundary flag
+  description: Implement --duplicate-boundaries option.
+  priority: COULD
+  depends:
+  - splitter-core
+- id: cleaner-core
+  title: Implement cleaner
+  description: Detect headings by font size and delete extraneous header/footer from
+    first and last page.
+  priority: SHOULD
+  depends:
+  - splitter-core
+- id: tests
+  title: Write unit tests
+  description: Implement pytest tests for splitter and cleaner, using sample PDFs.
+  priority: MUST
+  depends:
+  - splitter-core
+  - cleaner-core
+- id: ci
+  title: Configure CI pipeline
+  description: Setup GitHub Actions to run tests and lints on push.
+  priority: SHOULD
+  depends:
+  - tests
+- id: docs
+  title: Update documentation
+  description: Add usage instructions and reference to tech spec in README.
+  priority: SHOULD
+  depends:
+  - cli-skeleton
